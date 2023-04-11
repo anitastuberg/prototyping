@@ -25,10 +25,17 @@ const int echoPin = 10;
 //Setup the variables for the NeoPixel Strip
  
 // How many leds in your strip?
-#define NUM_LEDS 9
+#define NUM_LEDS 130
+
+/* 
+int upper_step = {1-57 tot: 57}:
+int  middle_step = {58-124, tot: 67};
+int lower_step= {125-221, tot:96};
+
+*/
  
 // What pin is the NeoPixel's data line connected to?
-#define DATA_PIN 11 
+#define DATA_PIN 6 
  
 // Define the array of leds
 CRGB leds[NUM_LEDS];
@@ -37,6 +44,7 @@ void setup(){
 // initialize serial communication:
   Serial.begin(9600);
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
+  //FastLED.showColor(CRGB::Blue);  
 }
  
 void loop()
@@ -45,6 +53,7 @@ void loop()
   // and the distance result in inches and centimeters:
   long duration, inches, cm;
  
+
   // The sensor is triggered by a HIGH pulse of 
   //10 or more microseconds.
   // Give a short LOW pulse beforehand to 
@@ -72,13 +81,33 @@ void loop()
   Serial.print("cm");
   Serial.println();
  
+ if (cm<=100) {
+  fill_solid(&(leds[5]), 10, CRGB::Green);
+  FastLED.show();
+}
+
+ if (cm<=50) {
+  fill_solid(&(leds[20]), 30, CRGB::HotPink);
+  FastLED.show();
+}
+
+
+/*if(cm>120){
+  fill_solid(&(leds[5]), 8, CRGB::HotPink);
+  FastLED.show();
+}
+*/
+/*
+
 if (cm <= 100)  {fill_solid( &(leds[0]), NUM_LEDS, CRGB::Blue);
  FastLED.show();
 }
- 
-else if (cm >= 101) {fill_solid( &(leds[0]), NUM_LEDS, CRGB::Black);
+*/
+
+else if (cm >= 120) {fill_solid( &(leds[0]), NUM_LEDS, CRGB::Black);
  FastLED.show();
 }
+
 delay(100);
 }
  
